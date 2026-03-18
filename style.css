@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f0f2f5; 
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    overflow: auto; 
+}
+
+.card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 100%; 
+    height: 100%;   
+    padding: 20px;
+    box-shadow: none; 
+    display: flex;
+    flex-direction: column;
+}
+
+.card h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #1a202c;
+    margin-bottom: 25px;
+}
+
+.person-section {
+    margin-bottom: 25px;
+}
+
+label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #718096;
+    margin-bottom: 8px;
+    display: block;
+}
+
+select {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px; 
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    background-color: #f8fafc;
+    color: #2d3748;
+}
+
+#allDrinks {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+.drink-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: #fff;
+    border-radius: 16px;
+    gap: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+.drink-row label {
+    flex: 1;
+    margin: 0;
+    color: #2d3748;
+    font-size: 17px;
+}
+
+input[type="number"] {
+    width: 50px;
+    border: none;
+    font-size: 20px;
+    text-align: center;
+    color: #2d3748;
+    background: transparent;
+}
+
+.quantity-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border: none;
+    border-radius: 12px;
+    background: #edf2f7;
+    color: #4a5568;
+}
+
+.quantity-btn[data-action="plus"] {
+    background: #3182ce;
+    color: white;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 18px;
+    margin-top: 25px;
+    border-radius: 16px;
+    border: none;
+    font-size: 18px;
+    background: #3182ce;
+    color: white;
+}
+
+.message {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.message.error, .message.success {
+    opacity: 1;
+    height: auto;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.message.success { background: #c9f5c4; color: #22543d; }
+.message.error { background: #f6c6c6; color: #9b2c2c; }

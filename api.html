@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Inventura nápojů</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+<div class="card">
+<h2>Evidence nápojů</h2>
+
+<form id="drinkForm">
+    <div class="person-section">
+        <label for="person">Kdo si dává nápoj?</label>
+        <select name="person" id="person" required>
+            <option value="" disabled selected hidden>Vyberte osobu...</option>
+        </select>
+    </div>
+
+    <div id="allDrinks"></div>
+
+    <button type="submit">Odeslat</button>
+</form>
+
+<div id="message" class="message"></div>
+</div>
+
+
+</body>
+</html>
