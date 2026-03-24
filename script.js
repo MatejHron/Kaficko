@@ -8,6 +8,42 @@ const username = "coffe";
 const password = "kafe";
 const AUTH_HEADER = make_base_auth(username, password);
 
+function saveOfflineData(payload) {
+    const existing = JSON.parse(localStorage.getItem("offlineDrinks") || "[]");
+    existing.push(payload);
+    localStorage.setItem("offlineDrinks", JSON.stringify(existing));
+}
+
+async function resendOfflineData() {
+    const data = JSON.parse(localStorage.getItem("offlineDrinks") || "[]");
+
+    if (data.length === 0) return;
+
+    const remaining = [];
+
+    for (const payload of data) {
+        try {
+            const res = await fetch(`${API}?cmd=saveDrinks`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": AUTH_HEADER
+                },
+                credentials: "include",
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+                remaining.push(payload);
+            }
+
+        } catch {
+            remaining.push(payload);
+        }
+    }
+
+    localStorage.setItem("offlineDrinks", JSON.stringify(remaining));
+}
 
 async function getPeopleList() {
     const res = await fetch(`${API}?cmd=getPeopleList`, {
@@ -48,6 +84,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const allDrinksDiv = document.getElementById("allDrinks");
     const button = form.querySelector("button[type='submit']");
     const personSelect = form.querySelector("select[name='person']");
+
+    resendOfflineData();
 
     try {
         const [people, types] = await Promise.all([
@@ -93,6 +131,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        button.disabled = true;
+
         const payload = {
             user: form.person.value,
             drinks: Array.from(document.querySelectorAll(".drink-row")).map(row => ({
@@ -104,6 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!payload.user || payload.drinks.every(d => d.value === 0)) {
             message.textContent = "Vyberte osobu a alespoň jeden nápoj!";
             message.className = "message error";
+            button.disabled = false;
             return;
         }
 
@@ -124,12 +165,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             message.textContent = "Uloženo!";
             message.className = "message success";
+
             document.querySelectorAll(".drink-row input").forEach(i => i.value = 0);
+
         } catch {
-            message.textContent = "Chyba při odesílání.";
+            saveOfflineData(payload);
+
+            message.textContent = "Offline - data uložena a odešlou se později.";
             message.className = "message error";
         } finally {
             button.disabled = false;
         }
     });
+});
+
+window.addEventListener("online", () => {
+    resendOfflineData();
 });
